@@ -118,7 +118,7 @@ router.get('/admin/movie/update/:id', function(req, res){
 
 /* post movie from admin.jade上传影片功能 */
 router.post('/admin/movie/new', function(req, res){
-  console.log(req.body)
+  //console.log(req.body)
   var id = req.body.movie.id//方法二  当向node服务器post发送数据时，键值对在请求的body里
   //var id = req.body.movie._id   方法一
   var movieObj = req.body.movie
@@ -131,12 +131,102 @@ router.post('/admin/movie/new', function(req, res){
       if(err){
         console.log(err)
       }
+      var oldCategoryId = movie.category
+      var newCategoryId = movieObj.category
+      console.log(oldCategoryId,newCategoryId)
       //用新的数据movieObj替换掉老的movie，extend就是替换改变的对应字段的用于object的方法
       _movie = _.extend(movie, movieObj)
+
+      /*
+//TODO: 改成function封装再es6的promise
       _movie.save(function(err, movie){ //save方法是数据库的插入文档方法
         if(err){
           console.log(err)
         }
+        Category.findById(oldCategoryId, function(err, oldCategory){
+          if(err){
+            console.log(err)
+          }
+          oldCategory.movies.forEach( function(item, index){
+            console.log("item:",item)
+            if(item == id){
+              oldCategory.movies.splice(index, 1)
+              oldCategory.save(function(err, result1){
+                if(err){
+                  console.log(err)
+                }
+           
+                Category.findById(newCategoryId, function(err, newCategory){
+                  if(err){
+                    console.log(err)
+                  }
+                  newCategory.movies.push(id)
+                  newCategory.save(function(err, result2){
+                    if(err){
+                      console.log(err)
+                    }
+                  })
+                })
+              })
+            }
+          })
+        })
+        res.redirect('/movie/' + movie._id)
+      })*/
+      function promise1(){
+        var p = new Promise(function(resolve, reject){
+          Category.findById(oldCategoryId, function(err, oldCategory){
+            if(err){
+              console.log(err)
+            }
+            oldCategory.movies.forEach( function(item, index){
+              console.log("item:",item)
+              if(item == id){
+                oldCategory.movies.splice(index, 1)
+                oldCategory.save(function(err, result1){
+                  if(err){
+                    console.log(err)
+                  }
+                  resolve()
+                })
+              }
+            })
+          })
+        })
+        return p;
+      }
+      function promise2(){
+        var p = new Promise(function(resolve, reject){
+          Category.findById(newCategoryId, function(err, newCategory){
+            if(err){
+              console.log(err)
+            }
+            newCategory.movies.push(id)
+            newCategory.save(function(err, result2){
+              if(err){
+                console.log(err)
+              }
+              resolve()
+            })
+          })
+        })
+        return p;
+      }
+      function promise3(){
+        var p = new Promise(function(resolve, reject){
+          _movie.save(function(err, movie){
+            if(err){
+              console.log(err)
+            }
+            resolve(movie) 
+          })
+        })
+        return p;
+      }
+      promise1()
+      .then(promise2)
+      .then(promise3)
+      .then(function(movie){
         res.redirect('/movie/' + movie._id)
       })
     })
@@ -159,12 +249,12 @@ router.post('/admin/movie/new', function(req, res){
     var categoryId = _movie.category
 
     _movie.save(function(err, movie){
-      console.log(" _movie.save(function(err, movie):",movie)
+      //console.log(" _movie.save(function(err, movie):",movie)
       if(err){
         console.log(err)
       }
       
-      console.log("跳转之前电影的id是：" + movie._id);
+      //console.log("跳转之前电影的id是：" + movie._id);
       Category.findById(categoryId, function(err, category){
         category.movies.push(movie._id)
         category.save(function(err, category){

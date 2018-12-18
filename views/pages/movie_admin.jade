@@ -8,7 +8,7 @@ block content
         input(name = 'movie[id]', value = '#{movie._id}')
         //-上行是方法二
           方法一： input(name = 'movie[_id]', value = '#{movie._id}')
-          value = '#{movie._id}'改成value = movie._id，当value为undefined时则会直接为空
+          value = '#{movie._id}'改成value = movie._id，当value为undefined时则会直接为空而不再显示“undefined”
         .form-group
           label.col-sm-3.control-label( for= 'inputCategory') 电影分类
           .col-sm-7
