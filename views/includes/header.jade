@@ -1,0 +1,53 @@
+.container
+  .row
+    .page-header
+      h2= title
+      small 科幻区
+//- 底部导航条
+.navbar.navbar-default.navbar-fixed-bottom
+  .container
+    .navbar-header
+      a.navbar-brand(href = "/") 电影网
+    if user
+       p.navbar-text.navbar-right
+        span 欢迎您！&nbsp;#{user.name}
+        span &nbsp;|&nbsp; 
+        a.navbar-link(href = "/logout") 退出
+    else
+      p.navbar-text.navbar-right
+        //- modal是bootstrap的模态框插件，跳出子窗口。
+            其中同时设置 data-target="#identifier" 或 href="#identifier" 来指定要切换的特定的模态框（带有 id="identifier"）
+        a.navbar-link(href = "#", data-toggle = "modal", data-target = "#signupModal") 注册
+        span &nbsp;|&nbsp; 
+        a.navbar-link(href = "#", data-toggle = "modal", data-target = "#signinModal") 登陆
+//- 按下底部导航条中按钮时跳出的模态框，默认是不显示的
+#signupModal.modal.fade
+  .modal-dialog
+    .modal-content
+      form(method = 'POST', action = "/user/signup")
+        .modal-header 注册
+        .modal-body
+          .form-group
+            label(for = "signupName") 用户名
+            input#signupName.form-control(name = "user[name]", type = "text")
+            label(for = "signupPassword") 密码
+            input#signupPassword.form-control(name = "user[password]", type = "text")
+        .modal-footer
+          button.btn.btn-default(type = "button", data-dismiss = "modal") 关闭
+          //- data-dismiss用于关闭模态窗口
+          button.btn.btn-success(type = 'submit') 提交
+#signinModal.modal.fade
+  .modal-dialog
+    .modal-content
+      form(method = 'POST', action = "/user/signin")
+        .modal-header 登陆
+        .modal-body
+          .form-group
+            label(for = "signinName") 用户名
+            input#signinName.form-control(name = "user[name]", type = "text")
+            label(for = "signinPassword") 密码
+            input#signinPassword.form-control(name = "user[password]", type = "text")
+        .modal-footer
+          button.btn.btn-default(type = "button", data-dismiss = "modal") 关闭
+          //- data-dismiss用于关闭模态窗口
+          button.btn.btn-success(type = 'submit') 提交

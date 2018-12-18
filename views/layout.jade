@@ -1,0 +1,12 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    include ./includes/head
+    //-引入外部引用样式
+  body
+    include ./includes/header
+    //- include包含另一模版，例如网站每页的通用内容，比如header，footer
+    block content
+    //- 调用子组件（占位？）

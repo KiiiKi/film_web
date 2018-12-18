@@ -1,0 +1,72 @@
+extends ../layout
+
+block content
+  .container
+    .row
+      form.form-horizontal( method = 'post', action = '/admin/movie/new')
+        //- action = '/admin/movie/new'  /表示进入localhost：3000根目录
+        input(name = 'movie[id]', value = '#{movie._id}')
+        //-上行是方法二
+          方法一： input(name = 'movie[_id]', value = '#{movie._id}')
+          value = '#{movie._id}'改成value = movie._id，当value为undefined时则会直接为空
+        .form-group
+          label.col-sm-3.control-label( for= 'inputCategory') 电影分类
+          .col-sm-7
+            input#inputCategory.form-control( type = 'text', name = 'movie[categoryName]', value = movie.categoryName)
+        .form-group
+          label.col-sm-3.control-label 分类选择
+          each cat in categories
+            label.radio-inline
+              if movie._id
+                input(type = 'radio', name = 'movie[category]', value = cat._id, checked = cat._id.toString()==movie.category.toString())
+                //- cat._id为每一个类别的id，页面带来的movie.category如果包含，则默认选中
+              else
+                input(type = 'radio', name = 'movie[category]', value = cat._id)
+              | #{cat.name}
+        .form-group
+          //-label的for属性要和相关元素的id相同，绑定触发
+          label.col-sm-3.control-label( for= 'inputTitle') 电影名字
+          .col-sm-7
+            //- name 属性规定 input 元素的名称。
+                用于对提交到服务器后的表单数据进行标识,
+                只有设置了 name 属性的表单元素才能在提交表单时传递它们的值。
+            input#inputTitle.form-control( type = 'text', name = 'movie[title]', value = movie.title)
+        
+        .form-group
+          label.col-sm-3.control-label( for= 'inputDirector') 电影导演
+          .col-sm-7
+            input#inputDirector.form-control( type = 'text', name = 'movie[director]', value = movie.director)
+
+        .form-group
+          label.col-sm-3.control-label( for= 'inputCountry') 国家
+          .col-sm-7
+            input#inputCountry.form-control( type = 'text', name = 'movie[country]', value = movie.country)
+
+        .form-group
+          label.col-sm-3.control-label( for= 'inputLanguage') 语种
+          .col-sm-7
+            input#inputLanguage.form-control( type = 'text', name = 'movie[language]', value = movie.language)
+
+        .form-group
+          label.col-sm-3.control-label( for= 'inputYear') 上映年份
+          .col-sm-7
+            input#inputYear.form-control( type = 'text', name = 'movie[year]', value = movie.year)
+
+        .form-group
+          label.col-sm-3.control-label( for= 'inputPoster') 海报地址
+          .col-sm-7
+            input#inputPoster.form-control( type = 'text', name = 'movie[poster]', value = movie.poster)
+
+        .form-group
+          label.col-sm-3.control-label( for= 'inputFlash') 播放地址
+          .col-sm-7
+            input#inputFlash.form-control( type = 'text', name = 'movie[flash]', value = movie.flash)
+
+        .form-group
+          label.col-sm-3.control-label( for= 'inputSummary') 电影简介
+          .col-sm-7
+            input#inputSummary.form-control( type = 'text', name = 'movie[summary]', value = movie.summary)
+
+        .form-group
+          .col-sm-offset-2.col-sm-10
+            button.btn.btn-default(type = 'submit') 录入

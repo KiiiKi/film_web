@@ -1,0 +1,18 @@
+本地开发环境（grunt）：
+    less文件的编译
+    样式的合并
+    语法的检查
+    前后端单元测试的实现
+    服务的自动重启
+
+后台（npm）：
+    node.js用express框架
+    mongodb数据库用mongoose建模工具
+    jade模版引擎
+    moment.js时间和日期的格式化工具
+
+前端（bower）：
+    jquery
+    bootstrap
+
+

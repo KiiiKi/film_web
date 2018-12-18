@@ -1,0 +1,24 @@
+extends ../layout
+//- 继承父组件
+
+//- 注册子组件
+block content
+  .container
+    .row
+      each cat in categories
+        .panel.panel-default
+          .panel-heading
+            h3 #{cat.name}
+          .panel-body
+            if cat.movies && cat.movies.length > 0 
+              each movie in cat.movies
+                //-对movies里的电影同样格式遍历输出，形成首页
+                .col-md-2
+                  //- col-md-2时垂直方向居中占2份？
+                  .thumbnail
+                    a(href = '/movie/#{movie._id}')
+                      img(src = '#{movie.poster}', alt = '#{movie.title}') 
+                    .caption
+                      h3 #{movie.title}
+                      p: a.btn.btn-primary( href = '/movie/#{movie._id}', role = 'button') 观看预告片
+                      //- html 里面的 role 本质上是增强语义性
