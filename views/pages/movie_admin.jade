@@ -5,7 +5,12 @@ block content
     .row
       form.form-horizontal( method = 'post', action = '/admin/movie/new')
         //- action = '/admin/movie/new'  /表示进入localhost：3000根目录
-        input(name = 'movie[id]', value = '#{movie._id}')
+        .form-group
+          label.col-sm-3.control-label 豆瓣同步id
+          input#douban(type = 'text')
+        .form-group
+          label.col-sm-3.control-label 电影分配_id
+          input(name = 'movie[id]', value = '#{movie._id}')
         //-上行是方法二
           方法一： input(name = 'movie[_id]', value = '#{movie._id}')
           value = '#{movie._id}'改成value = movie._id，当value为undefined时则会直接为空而不再显示“undefined”
@@ -70,3 +75,5 @@ block content
         .form-group
           .col-sm-offset-2.col-sm-10
             button.btn.btn-default(type = 'submit') 录入
+  
+  script(src = '/javascripts/admin.js')
