@@ -8,7 +8,9 @@ block content
       each cat in categories
         .panel.panel-default
           .panel-heading
-            h3 #{cat.name}
+            h3 
+              a(href = '/results?cat=#{cat._id}&p=0')|#{cat.name}
+              //- 为各个分类加入点击跳转，其中p=0表示为此分类下电影的第一页
           .panel-body
             if cat.movies && cat.movies.length > 0 
               each movie in cat.movies

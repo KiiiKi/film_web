@@ -1,8 +1,15 @@
 .container
   .row
-    .page-header
+    .page-header.clearfix
       h2= title
-      small 科幻区
+      .col-md-4
+        small 影影影影影影影影
+      .col-md-7
+        form(method = 'GET', action = '/results')
+          .input-group.col-sm-4.pull-right
+            input.form-control(type = 'text', name = 'search_text')
+            span.input-group-btn
+              button.btn.btn-default(type = 'submit') 搜索
 //- 底部导航条
 .navbar.navbar-default.navbar-fixed-bottom
   .container

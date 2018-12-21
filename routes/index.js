@@ -65,5 +65,58 @@ router.get('/', function(req, res, next) {
 
 });
 
+/*  GET search category to get results  */
+/*  GET click category's name to get results */
+router.get('/results', function(req, res){
+  var catId = req.query.cat
+  var page = parseInt(req.query.p, 10) || 0
+  var size = 2//每页电影数
+  var index = page * size //数据库中索引开始位置，每一页显示2条电影数据
+  var search_text = req.query.search_text
+  if(catId){//有catId说明是点击进的
+    Category
+      .find({_id: catId})
+      //.populate({path: 'movies', select: 'title poster', options: {limit: 2, skip: index}})//skip表示跳到index位置开始查询(skip逻辑用不了，去掉自己写)
+      .populate({path: 'movies', select: 'title poster'})
+      .exec(function(err, category){
+        if(err){
+          console.log(err)
+        }
+        var cat = category[0] || {}
+        var movies = cat.movies || []
+        var results = movies.slice(index, index + size)//实现每页2个电影
+
+        res.render('./pages/search_results', { 
+          title: '分类结果列表',
+          keyword: cat.name,//分类名
+          query: 'cat=' + catId,
+          movies: results,
+          currentPage : page + 1,
+          totalPage : Math.ceil(movies.length / size)
+        })
+      })
+  }else{
+    Movie
+      .find({title: new RegExp('.*' + search_text + '.*', 'i')})//正则中.*表示贪婪匹配，单个字符匹配任意次
+      .exec(function(err, movies){
+        if(err){
+          console.log(err)
+        }
+        var results = movies.slice(index, index + size)//page没有时默认为0，若是选择某页，则query里有page参数
+
+        res.render('./pages/search_results', { 
+          title: '搜索结果列表',
+          keyword: search_text,
+          query: 'search=' + search_text,
+          movies: results,
+          currentPage : page + 1,
+          totalPage : Math.ceil(movies.length / size)
+        })
+      })
+  }
+
+})
+
+
 
 module.exports = router;

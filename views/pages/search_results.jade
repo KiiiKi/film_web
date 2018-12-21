@@ -1,0 +1,34 @@
+extends ../layout
+//- 继承父组件
+
+//- 注册子组件
+block content
+  .container
+    .row
+      .panel.panel-default
+        .panel-heading
+          h4 #{keyword}
+            //- 为各个分类加入点击跳转，其中p=0表示为此分类下电影的第一页
+        .panel-body
+          if movies && movies.length > 0 
+            each movie in movies
+              //-对movies里的电影同样格式遍历输出，形成首页
+              .col-md-2
+                //- col-md-2时垂直方向居中占2份？
+                .thumbnail
+                  a(href = '/movie/#{movie._id}')
+                    img(src = '#{movie.poster}', alt = '#{movie.title}') 
+                  .caption
+                    h3 #{movie.title}
+                    p: a.btn.btn-primary( href = '/movie/#{movie._id}', role = 'button') 观看预告片
+                    //- html 里面的 role 本质上是增强语义性
+      ul.pagination
+        - for(var i = 0; i < totalPage; i++){
+          - if(currentPage == (i + 1)){
+              li.active
+                span #{currentPage}
+          - }else{
+              li
+                a(href = '/results?#{query}&p=#{i}') #{i + 1}
+          - }
+        - }
