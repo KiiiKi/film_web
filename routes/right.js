@@ -1,4 +1,4 @@
-//用户权限
+//用户权限中间件
 var signinRequired = function(req, res, next){
   var user = req.session.user
   if(!user){
@@ -7,7 +7,7 @@ var signinRequired = function(req, res, next){
   console.log("经过signin")
   next()
 }
-//管理员权限
+//管理员权限中间件
 var adminRequired = function(req, res, next){
   var user = req.session.user
   if(user.role <= 10){

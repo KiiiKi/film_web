@@ -3,8 +3,9 @@ extends ../layout
 block content
   .container
     .row
-      form.form-horizontal( method = 'post', action = '/admin/movie/new')
+      form.form-horizontal( method = 'post', action = '/admin/movie/new', enctype = 'multipart/form-data')
         //- action = '/admin/movie/new'  /表示进入localhost：3000根目录
+          enctype 是设置表单的MIME编码。application/x-www-form-urlencoded是只能上传文本格式的文件，multipart/form-data是将文件以二进制的形式上传，这样可以实现多种类型的文件上传
         .form-group
           label.col-sm-3.control-label 豆瓣同步id
           input#douban(type = 'text')
@@ -61,6 +62,12 @@ block content
           label.col-sm-3.control-label( for= 'inputPoster') 海报地址
           .col-sm-7
             input#inputPoster.form-control( type = 'text', name = 'movie[poster]', value = movie.poster)
+        
+        .form-group
+          label.col-sm-3.control-label( for= 'uploadPoster') 海报上传
+          .col-sm-7
+            input#uploadPoster( type = 'file', name = 'uploadPoster')
+            //- file类型，文件传输。enctype = 'multipart/form-data'设置其为binary二进制型传输
 
         .form-group
           label.col-sm-3.control-label( for= 'inputFlash') 播放地址

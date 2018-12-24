@@ -7,6 +7,7 @@ var _ = require('underscore')
 var Comment = require('../models/Comment.js')
 var Category = require('../models/category.js')
 
+var save_poster = require('./async_poster.js')
 
 /* GET movie detail page影片详情页 */
 router.get('/movie/:id', function(req, res, next) {
@@ -117,13 +118,18 @@ router.get('/admin/movie/update/:id', function(req, res){
 
 
 /* post movie from admin.jade上传影片功能 */
-router.post('/admin/movie/new', function(req, res){
+router.post('/admin/movie/new', save_poster.async, function(req, res){
   //console.log(req.body)
   var id = req.body.movie.id//方法二  当向node服务器post发送数据时，键值对在请求的body里
   //var id = req.body.movie._id   方法一
   var movieObj = req.body.movie
   //var _movie = new Movie()
   var _movie
+
+  if(req.poster){
+    movieObj.poster = req.poster
+    //下次在更新电影信息时，”海报地址“中就会传入本地储存的海报地址
+  }
 
   if(id !== 'undefined'){
     console.log('已有电影')

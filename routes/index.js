@@ -69,7 +69,7 @@ router.get('/', function(req, res, next) {
 /*  GET click category's name to get results */
 router.get('/results', function(req, res){
   var catId = req.query.cat
-  var page = parseInt(req.query.p, 10) || 0
+  var page = parseInt(req.query.p, 10) || 0//有个初始值
   var size = 2//每页电影数
   var index = page * size //数据库中索引开始位置，每一页显示2条电影数据
   var search_text = req.query.search_text

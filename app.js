@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');//cookie-parser 的作用就是设�
 var session = require('express-session')
 var mongoose = require('mongoose')
 var mongoStore = require('connect-mongo')(session)
+var multiparty = require('connect-multiparty')
 var logger = require('morgan');//记录日志
 var bodyParser = require('body-parser');//对post请求的请求体进行解析，可获得一个JSON化的req.body,也就是将post的req.body初始化为一个对象
 var indexRouter = require('./routes/index');
@@ -41,7 +42,8 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));  
 //app.use(express.urlencoded({ extended: false }));
 
-
+app.use(multiparty())
+//express的中间件，专门处理enctype=multipart/form-control类型表单提交过来的数据
 
 app.use(express.static(path.join(__dirname, 'public')));//静态文件位置
 
