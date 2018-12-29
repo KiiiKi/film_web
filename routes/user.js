@@ -57,8 +57,8 @@ router.get('/signin', function(req, res){
 /* POST user signin用户登陆功能 */
 router.post('/user/signin', function(req, res){
   var _user = req.body.user
-  var {name, password} = _user
-  User.findOne({name: _user.name}, function(err, user){
+  var {name, password} = _user//相当于name=_user.name;password=_user.password
+  User.findOne({name: name}, function(err, user){
     if(err){
       console.log(err)
     }

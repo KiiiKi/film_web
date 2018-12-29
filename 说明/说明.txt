@@ -15,4 +15,9 @@
     jquery
     bootstrap
 
+单元测试（unit tests）：
+    moocha
+    qunit
+    jasmine
+
 

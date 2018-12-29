@@ -13,6 +13,7 @@ var _ = require('underscore')//使Object有像Array的 map()和filter()之类方
 // 连接mongodb数据库imooc，mongoose的连接要写在路由文件中
 mongoose.connect('mongodb://localhost/imooc', { useNewUrlParser: true })
 mongoose.Promise = global.Promise;//将mongoose已经不被建议的Promise方法替换
+mongoose.set('useCreateIndex', true);
 var db = mongoose.connection;// 实例化连接对象
 db.on('error', console.error.bind(console, 'MongoDB连接错误:'));
 db.once('open', (callback) => {console.log('MongoDB连接成功！！')})
