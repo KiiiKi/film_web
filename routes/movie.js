@@ -14,6 +14,12 @@ router.get('/movie/:id', function(req, res, next) {
   var id = req.params.id;
   console.log("这个/movie/:id的网页中的id是:" + id);
   if(id){
+    Movie.update({_id: id}, {$inc: {pv :1}}, function(err){
+      //修改器$inc可以对文档的某个值为数字型（只能为满足要求的数字）的键进行增减的操作。
+      if(err){
+        console.log(err)
+      }
+    }) 
     Movie.findById(id, function(err, movie){
       console.log("detail页面的movie是："+ movie)
       /**
